@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([file(credentialsId: 'your-kubeconfig-credential-id', variable: 'KUBECONFIG')]) {
-                        sh "cp $KUBECONFIG_PATH $KUBECONFIG"
+                        sh "cp ${KUBECONFIG_PATH} \$HOME/.kube/config"
                     }
                 }
             }
@@ -41,7 +41,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh "kubectl --kubeconfig=$KUBECONFIG set image deployment/$DEPLOYMENT_NAME $DEPLOYMENT_NAME=$IMAGE_NAME"
+                    sh "kubectl apply -f nginx.yaml --kubeconfig=\$HOME/.kube/config"
+                    sh "kubectl set image deployment/${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}=${IMAGE_NAME} --kubeconfig=\$HOME/.kube/config"
                 }
             }
         }
@@ -49,8 +50,7 @@ pipeline {
         stage('Verify Deployment') {
             steps {
                 script {
-                    // Adicione etapas de verificação, se necessário
-                    sh "kubectl --kubeconfig=$KUBECONFIG rollout status deployment/$DEPLOYMENT_NAME"
+                    sh "kubectl rollout status deployment/${DEPLOYMENT_NAME} --kubeconfig=\$HOME/.kube/config"
                 }
             }
         }
