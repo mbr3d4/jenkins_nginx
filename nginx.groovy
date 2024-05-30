@@ -19,7 +19,12 @@ pipeline {
                           userRemoteConfigs: [[url: "${GIT_REPO_URL}"]]])
             }
         }
-        
+        stage('Set Kubeconfig') {
+            steps {
+                sh 'mkdir -p $HOME/.kube'
+                sh "cp ${KUBECONFIG_PATH} $HOME/.kube/config"
+            }
+        }
         stage('Deploy to Kubernetes') {
             steps {
                 sh "kubectl apply -f nginx.yaml"
