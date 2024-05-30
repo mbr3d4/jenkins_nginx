@@ -6,6 +6,7 @@ pipeline {
         IMAGE_NAME = 'nginx:stable-perl'
         GIT_REPO_URL = 'https://github.com/mbr3d4/jenkins_nginx.git'
         KUBECONFIG_PATH = 'config'  // Caminho relativo ao repositório clonado
+        
     }
     
     stages {
@@ -21,8 +22,8 @@ pipeline {
         }
         stage('Set Kubeconfig') {
             steps {
-                sh 'mkdir -p $HOME/.kube'
-                sh "cp ${KUBECONFIG_PATH} $HOME/.kube/config"
+                sh 'mkdir -p /home/vagrant/.kube'
+                sh "cp ${KUBECONFIG_PATH} /home/vagrant/.kube/config"
             }
         }
         stage('Deploy to Kubernetes') {
