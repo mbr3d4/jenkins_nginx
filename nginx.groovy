@@ -22,7 +22,7 @@ pipeline {
         }
         stage('Set Kubeconfig') {
             steps {
-                sh "cp ${KUBECONFIG_PATH} /home/vagrant/.kube/config"
+                sh "sudo cp ${KUBECONFIG_PATH} /home/vagrant/.kube/config"
             }
         }
         stage('Deploy to Kubernetes') {
