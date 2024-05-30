@@ -22,7 +22,6 @@ pipeline {
         }
         stage('Set Kubeconfig') {
             steps {
-                sh 'mkdir -p /home/vagrant/.kube'
                 sh "cp ${KUBECONFIG_PATH} /home/vagrant/.kube/config"
             }
         }
