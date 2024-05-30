@@ -2,11 +2,11 @@ pipeline {
     agent any
     
     environment {
-        DEPLOYMENT_NAME = 'your-deployment-name'
-        IMAGE_NAME = 'your/image:tag'
-        GIT_REPO_URL = 'https://github.com/yourusername/your-repo.git'
-        GIT_CREDENTIAL_ID = 'your-git-credential-id'
-        KUBECONFIG_PATH = './kubeconfig-folder/kubeconfig'
+        DEPLOYMENT_NAME = 'nginx'
+        IMAGE_NAME = 'nginx:stable-perl'
+        GIT_REPO_URL = 'https://github.com/mbr3d4/jenkins_nginx.git'
+        GIT_CREDENTIAL_ID = 'mbr3d4'
+        KUBECONFIG_PATH = 'config'
     }
     
     stages {
