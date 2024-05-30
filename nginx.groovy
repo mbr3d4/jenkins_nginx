@@ -22,36 +22,29 @@ pipeline {
         
         stage('Set Kubeconfig') {
             steps {
-                script {
-                    withCredentials([file(credentialsId: 'your-kubeconfig-credential-id', variable: 'KUBECONFIG')]) {
-                        sh "cp ${KUBECONFIG_PATH} \$HOME/.kube/config"
-                    }
+                withCredentials([file(credentialsId: 'your-kubeconfig-credential-id', variable: 'KUBECONFIG')]) {
+                    sh "cp ${KUBECONFIG_PATH} \$HOME/.kube/config"
                 }
             }
         }
         
         stage('Build Docker Image') {
             steps {
-                script {
-                    // Aqui você pode adicionar etapas para construir sua imagem Docker, se necessário
-                }
+                // Aqui você pode adicionar etapas para construir sua imagem Docker, se necessário
+                echo 'Build Docker Image stage (currently no actions specified)'
             }
         }
         
         stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    sh "kubectl apply -f nginx.yaml --kubeconfig=\$HOME/.kube/config"
-                    sh "kubectl set image deployment/${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}=${IMAGE_NAME} --kubeconfig=\$HOME/.kube/config"
-                }
+                sh "kubectl apply -f nginx.yaml --kubeconfig=\$HOME/.kube/config"
+                sh "kubectl set image deployment/${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}=${IMAGE_NAME} --kubeconfig=\$HOME/.kube/config"
             }
         }
         
         stage('Verify Deployment') {
             steps {
-                script {
-                    sh "kubectl rollout status deployment/${DEPLOYMENT_NAME} --kubeconfig=\$HOME/.kube/config"
-                }
+                sh "kubectl rollout status deployment/${DEPLOYMENT_NAME} --kubeconfig=\$HOME/.kube/config"
             }
         }
     }
