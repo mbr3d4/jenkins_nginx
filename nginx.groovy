@@ -20,29 +20,16 @@ pipeline {
             }
         }
         
-        stage('Set Kubeconfig') {
-            steps {
-                sh 'mkdir -p $HOME/.kube'
-                sh "cp ${KUBECONFIG_PATH} $HOME/.kube/config"
-            }
-        }
-        
-        stage('Build Docker Image') {
-            steps {
-                echo 'Build Docker Image stage (currently no actions specified)'
-            }
-        }
-        
         stage('Deploy to Kubernetes') {
             steps {
-                sh "kubectl apply -f nginx.yaml --kubeconfig=$HOME/.kube/config"
-                sh "kubectl set image deployment/${DEPLOYMENT_NAME} ${DEPLOYMENT_NAME}=${IMAGE_NAME} --kubeconfig=$HOME/.kube/config"
+                sh "kubectl apply -f nginx.yaml"
+                
             }
         }
         
         stage('Verify Deployment') {
             steps {
-                sh "kubectl rollout status deployment/${DEPLOYMENT_NAME} --kubeconfig=$HOME/.kube/config"
+                sh "kubectl rollout status deployment/${DEPLOYMENT_NAME}"
             }
         }
     }
