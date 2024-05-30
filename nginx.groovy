@@ -5,7 +5,6 @@ pipeline {
         DEPLOYMENT_NAME = 'nginx'
         IMAGE_NAME = 'nginx:stable-perl'
         GIT_REPO_URL = 'https://github.com/mbr3d4/jenkins_nginx.git'
-        GIT_CREDENTIAL_ID = 'mbr3d4'
         KUBECONFIG_PATH = 'config'
     }
     
@@ -13,11 +12,11 @@ pipeline {
         stage('Clone Git Repository') {
             steps {
                 checkout([$class: 'GitSCM', 
-                          branches: [[name: '*/master']], 
+                          branches: [[name: '*/main']], 
                           doGenerateSubmoduleConfigurations: false, 
                           extensions: [], 
                           submoduleCfg: [], 
-                          userRemoteConfigs: [[credentialsId: "${GIT_CREDENTIAL_ID}", url: "${GIT_REPO_URL}"]]])
+                          userRemoteConfigs: [[url: "${GIT_REPO_URL}"]]])
             }
         }
         
